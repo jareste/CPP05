@@ -6,7 +6,7 @@
 /*   By: jareste- <jareste-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 20:20:44 by jareste-          #+#    #+#             */
-/*   Updated: 2023/09/27 18:16:24 by jareste-         ###   ########.fr       */
+/*   Updated: 2023/09/28 16:42:06 by jareste-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,23 @@ int			Bureaucrat::getGrade() const
 void	Bureaucrat::check_grade_exceptions()
 {
 	if (this->grade > 150)
-		throw Bureaucrat::GradeTooHighException("hola");
+		throw Bureaucrat::GradeTooHighException("Grade is too high");
 	if (this->grade < 1)
-		throw Bureaucrat::GradeTooLowException("adeu");
+		throw Bureaucrat::GradeTooLowException("Grade is too low");
 }
+
+void		Bureaucrat::signForm(Form &form) const
+{
+	try
+	{
+		form.beSigned(*this);
+	}
+	catch (std::out_of_range& e)
+	{
+		std::cout << this->name << " failed to sign " << form.getName() << " due to " << e.what() << std::endl;
+	}
+}
+
 
 std::ostream&	operator<<( std::ostream& out, const Bureaucrat& bureaucrat )
 {

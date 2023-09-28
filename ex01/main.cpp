@@ -6,7 +6,7 @@
 /*   By: jareste- <jareste-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 20:21:03 by jareste-          #+#    #+#             */
-/*   Updated: 2023/09/27 12:56:58 by jareste-         ###   ########.fr       */
+/*   Updated: 2023/09/28 16:40:57 by jareste-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,14 @@
 
 #define INCREMENT 0
 #define DECREMENT 1
+#define GET_NAME 0
+#define GET_SIGN_GRADE 1
+#define GET_EXEC_GRADE 2
+#define GET_IS_SIGNED 3
 
-Bureaucrat	testConstructorGrade( unsigned int grade, int& catched )
+
+
+Bureaucrat	testConstructorBureaucratGrade( unsigned int grade, int& catched )
 {
 	Bureaucrat	Joan( "Juan", MIN_GRADE );
 
@@ -34,112 +40,190 @@ Bureaucrat	testConstructorGrade( unsigned int grade, int& catched )
 	return ( Joan );
 }
 
-void	iterGrade( Bureaucrat& Juan, unsigned int n, unsigned int mode )
+Form	testConstructorFormGrade( unsigned int signGrade, unsigned int execGrade, int& catched )
 {
-	for ( unsigned int i = 0; i < n; i++ )
-	{
-		if ( mode == DECREMENT )
-		{
-			std::cout << "\tDecrement grade by 1" << std::endl;
-			Juan.decrementGrade();
-		}
-		else
-		{
-			std::cout << "\tIncrement grade by 1" << std::endl;
-			Juan.incrementGrade();
-		}
-	}
-}
-
-void	testModifyGrade( unsigned int mode, unsigned int grade, unsigned int n )
-{
-	int			catched;
-	Bureaucrat	Juan;
+	Form	Default( "Unnamed Form", MIN_GRADE, MIN_GRADE );
 
 	catched = 0;
-	Juan = testConstructorGrade( grade, catched );
-	if ( catched == 1 )
-		return ;
-	std::cout << "\t[ START ]: Juan stats -> " << Juan << std::endl;
 	try
 	{
-		iterGrade( Juan, n, mode );
+		Form	form( "Juan's Form", signGrade, execGrade );
+		return ( form );
 	}
 	catch ( std::out_of_range& e )
 	{
 		std::cout << "\tcatch: " << e.what() << std::endl;
+		catched = 1;
 	}
-	std::cout << "\t[ END ]: Juan stats -> " << Juan << std::endl;
+	return ( Default );
+}
+
+void	doFormConstructorTest( unsigned int testNumber, std::string testName, \
+								unsigned int signGrade, unsigned int execGrade )
+{
+	int	catched;
+
+	std::cout << "Test " << testNumber << ": " << testName << " in constructor: Form\t" \
+		<< "Juan( \"Juan's Form\", " << signGrade <<  ", "<< execGrade << " )"  << std::endl;
+	testConstructorFormGrade( signGrade, execGrade, catched );
+	std::cout << "End of test\n"  << std::endl;
+}
+
+void	doFormGetterTest( unsigned int testNumber, std::string testName, \
+								Form form, unsigned int mode )
+{
+	std::cout << "Test " << testNumber << ": " << testName << " in constructor: Form\t" \
+		<< "form( \"Juan's Form\", " << MID_GRADE <<  ", " << MIN_GRADE << " )"  << std::endl;
+	switch ( mode )
+	{
+		case GET_NAME:
+			std::cout << "form.getName() = " << form.getName() << std::endl;
+			break;
+		case GET_SIGN_GRADE:
+			std::cout << "form.getGradeToSign() = " << form.getGradeToSign() << std::endl;
+			break;
+		case GET_EXEC_GRADE:
+			std::cout << "form.getGradeToExe() = " << form.getGradeToExe() << std::endl;
+			break;
+		case GET_IS_SIGNED:
+			std::cout << "form.getFormSigned() = " << (form.getFormSigned() ? "true" : "false") << std::endl;
+			break;
+		default:
+			std::cout << "Invalid getter mode" << std::endl;
+			break;
+	}
+	std::cout << "End of test\n"  << std::endl;
+}
+
+void	doBureaucratSignFormTest( unsigned int testNumber, std::string testName, \
+								Bureaucrat& Juan, Form& form )
+{
+	std::cout << "Test " << testNumber << ": " << testName << " in signForm method: Form\t" \
+		<< "form( \"" << form.getName() << "\", " << form.getGradeToSign() \
+		<<  ", "<< form.getGradeToExe() << ")" << " && Bureaucrat\tJuan( \" " \
+		<< Juan.getName() << "\", " << Juan.getGrade() << " )" << " )"  << std::endl;
+	std::cout << "\tform stats -> " << form << std::endl;
+	std::cout << "\t";
+	Juan.signForm( form );
+	std::cout << "\tform stats -> " << form << std::endl;
+	std::cout << "End of test\n"  << std::endl;
+}
+
+// TESTS
+void	testsFormConstructor( void )
+{
+	//Constructor Tests
+	
+	//	signGrade: Out of range Grades in Form constructor
+
+	doFormConstructorTest( 1, "too low signGrade", MIN_GRADE + 1, MID_GRADE );
+	doFormConstructorTest( 2, "too high signGrade", MAX_GRADE - 1, MID_GRADE );
+	
+	//	execGrade: Out of range Grades in Form constructor
+
+	doFormConstructorTest( 3, "too low execGrade", MID_GRADE, MIN_GRADE + 1 );
+	doFormConstructorTest( 4, "too high execGrade", MID_GRADE, MAX_GRADE - 1 );
+	
+	//	Both: Out of range Grades in Form constructor
+
+	doFormConstructorTest( 5, "too low both signGrade and execGrade", \
+							MIN_GRADE + 1, MIN_GRADE + 1 );
+	doFormConstructorTest( 6, "too high both signGrade and execGrade", \
+							MAX_GRADE - 1, MAX_GRADE - 1 );
+	doFormConstructorTest( 7, "too high signGrade and too low execGrade", \
+							MAX_GRADE - 1, MIN_GRADE + 1  );
+	doFormConstructorTest( 8, "too low signGrade and too high execGrade", \
+							MIN_GRADE + 1, MAX_GRADE - 1  );
+}
+
+void	testsFormGetters( void )
+{
+	Form	form( "Juan's Form", MID_GRADE, MIN_GRADE );
+	Bureaucrat	Juan( "Juan", MID_GRADE );
+
+	//Getters Tests
+	
+	//	getName()
+
+	doFormGetterTest( 1, "getName()", form, GET_NAME );
+
+	//	getGradeToSign()
+
+	doFormGetterTest( 2, "getGradeToSign()", form, GET_SIGN_GRADE );
+
+	//	getGradeToExe()
+
+	doFormGetterTest( 3, "getGradeToExe()", form, GET_EXEC_GRADE );
+
+	//	getFormSigned(): Before singed
+
+	doFormGetterTest( 4, "getFormSigned() [ Before Sign a Form ]", form, GET_IS_SIGNED );
+
+	//	getFormSigned(): After singed
+
+	Juan.signForm( form );
+	doFormGetterTest( 5, "getFormSigned() [ After Sign a Form ]", form, GET_IS_SIGNED );
+}
+
+
+void	testsBureaucratSignForm( void )
+{
+	Form		formMinGrade( "Juan's form", MIN_GRADE, MIN_GRADE );
+	Form		formMidGrade( "Juan's form", MID_GRADE, MID_GRADE );
+	Form		formMaxGrade( "Juan's form", MAX_GRADE, MAX_GRADE );
+	Bureaucrat	JuanMinGrade( "Juan", MIN_GRADE );
+	Bureaucrat	JuanMidGrade( "Juan", MID_GRADE );
+	Bureaucrat	JuanMaxGrade( "Juan", MAX_GRADE );
+
+	//Method Tests
+	
+	//	Invalid Grade to signForm
+
+	doBureaucratSignFormTest( 1, "too low signGrade", JuanMinGrade, formMidGrade );
+
+	// Limits Grade to signForm and equal grade
+	doBureaucratSignFormTest( 4, "signGrade equals to Bureaucrat Grade [ MIN GRADE ]", \
+								JuanMinGrade, formMinGrade );
+	doBureaucratSignFormTest( 2, "signGrade equals to Bureaucrat Grade [ MID GRADE ]", \
+								JuanMidGrade, formMidGrade );
+	doBureaucratSignFormTest( 3, "signGrade equals to Bureaucrat Grade [ MAX GRADE ]", \
+								JuanMaxGrade, formMaxGrade );
+
+	// Form already signed and their priorities
+	doBureaucratSignFormTest( 5, "form is already signed and valid grade", \
+								JuanMidGrade, formMidGrade );
+	doBureaucratSignFormTest( 6, "form is already signed and invalid grade", \
+								JuanMinGrade, formMidGrade );
+}
+
+bool	executionQuestion( std::string testsName )
+{
+	std::string	answer;
+
+	std::cout << "Do you want to execute the " << testsName << " tests [ y / n ]: ";
+	std::getline( std::cin, answer );
+	if ( answer.compare( "Y" ) == 0 || answer.compare( "y" ) == 0 )
+	{
+		std::cout << std::endl;
+		return ( true );
+	}
+	return ( false );
 }
 
 int	main( void )
 {
-	int	catched;
+	std::cout << std::unitbuf;
+	if ( executionQuestion( "Form constructor" ) == true )
+		testsFormConstructor();
+	std::cout << std::endl;
 
-	//Constructor Tests
-	
-	//	Out of range Grades
-	std::cout << "Test too low grade in constructor: Bureaucrat\tJuan( \"Juan\", 151 )"  << std::endl;
-	testConstructorGrade( 151, catched );
-	std::cout << "End of test\n"  << std::endl;
+	if ( executionQuestion( "Form getters" ) == true )
+		testsFormGetters();
+	std::cout << std::endl;
 
-	std::cout << "Test too high grade in constructor: Bureaucrat\tJuan( \"Juan\", 0 )"  << std::endl;
-	testConstructorGrade( 0, catched );
-	std::cout << "End of test\n"  << std::endl;
-	
-	//	Valid Grades
-	std::cout << "Test MAX_GRADE (" << MAX_GRADE << ") constructor: Bureaucrat\tJuan( \"Juan\", " << MAX_GRADE << " )"  << std::endl;
-	testConstructorGrade( MAX_GRADE, catched );
-	std::cout << "End of test\n"  << std::endl;
-
-	std::cout << "Test MIN_GRADE (" << MIN_GRADE << ") constructor: Bureaucrat\tJuan( \"Juan\", " << MIN_GRADE << " )"  << std::endl;
-	testConstructorGrade( MIN_GRADE, catched );
-	std::cout << "End of test\n"  << std::endl;
-
-	std::cout << "Test MID_GRADE " << MID_GRADE << " constructor: Bureaucrat\tJuan( \"Juan\", " << MID_GRADE << " )"  << std::endl;
-	testConstructorGrade( MID_GRADE, catched );
-	std::cout << "End of test\n"  << std::endl;
-
-	//Increment/Decrement Methods Tests
-	
-	//	Out of range Grades Iterations
-	std::cout << "Test too low grade with decrement method: Bureaucrat\tJuan( \"Juan\", 150 )"  << std::endl;
-	testModifyGrade( DECREMENT, 150, 1 );
-	std::cout << "End of test\n"  << std::endl;
-
-	std::cout << "Test too high grade with increment method: Bureaucrat\tJuan( \"Juan\", 1 )"  << std::endl;
-	testModifyGrade( INCREMENT, 1, 1 );
-	std::cout << "End of test\n"  << std::endl;
-
-	//	Valid Grades Iterations
-	std::cout << "Test decrement method: Bureaucrat\tJuan( \"Juan\", " << MID_GRADE << " )"  << std::endl;
-	testModifyGrade( DECREMENT, MID_GRADE, 1 );
-	std::cout << "End of test\n"  << std::endl;
-
-	std::cout << "Test increment method: Bureaucrat\tJuan( \"Juan\", " << MID_GRADE << " )"  << std::endl;
-	testModifyGrade( INCREMENT, MID_GRADE, 1 );
-	std::cout << "End of test\n"  << std::endl;
-
-	std::cout << "Test decrement method, multiple iterations (10): Bureaucrat\tJuan( \"Juan\", " << MID_GRADE << " )"  << std::endl;
-	testModifyGrade( DECREMENT, MID_GRADE, 10 );
-	std::cout << "End of test\n"  << std::endl;
-
-	std::cout << "Test increment method, multiple iterations (10): Bureaucrat\tJuan( \"Juan\", " << MID_GRADE << " )"  << std::endl;
-	testModifyGrade( INCREMENT, MID_GRADE, 10 );
-	std::cout << "End of test\n"  << std::endl;
-
-	//Getter Methods Tests
-
-	//	getName()
-	Bureaucrat	Juan = testConstructorGrade( MID_GRADE, catched );
-	std::cout << "Test getName method: Bureaucrat\tJuan( \"Juan\", " << MID_GRADE << " )"  << std::endl;
-	std::cout << "Name: " << Juan.getName() << std::endl;
-	std::cout << "End of test\n"  << std::endl;
-
-	//	getGrade()
-	std::cout << "Test getGrade method: Bureaucrat\tJuan( \"Juan\", " << MID_GRADE << " )"  << std::endl;
-	std::cout << "Grade: " << Juan.getGrade() << std::endl;
-	std::cout << "End of test\n"  << std::endl;
+	if ( executionQuestion( "Bureaucrat signForm() method" ) == true )
+		testsBureaucratSignForm();
+	std::cout << std::endl;
 
 	return ( 0 );
 }

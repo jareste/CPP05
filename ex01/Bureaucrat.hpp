@@ -6,7 +6,7 @@
 /*   By: jareste- <jareste-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 20:20:48 by jareste-          #+#    #+#             */
-/*   Updated: 2023/09/28 12:14:44 by jareste-         ###   ########.fr       */
+/*   Updated: 2023/09/28 16:16:30 by jareste-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # define MIN_GRADE 150
 # define MAX_GRADE 1
 # define MID_GRADE ((MAX_GRADE - MIN_GRADE) / 2 + MIN_GRADE)
+# include "Form.hpp"
 
 class Form;
 

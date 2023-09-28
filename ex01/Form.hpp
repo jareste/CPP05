@@ -6,7 +6,7 @@
 /*   By: jareste- <jareste-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 18:18:57 by jareste-          #+#    #+#             */
-/*   Updated: 2023/09/28 12:25:55 by jareste-         ###   ########.fr       */
+/*   Updated: 2023/09/28 16:20:12 by jareste-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # define MIN_GRADE 150
 # define MAX_GRADE 1
 # define MID_GRADE ((MAX_GRADE - MIN_GRADE) / 2 + MIN_GRADE)
+# include "Bureaucrat.hpp"
 
 class Bureaucrat;
 
@@ -38,6 +39,7 @@ class Form
 		int			getGradeToSign() const;
 		int			getGradeToExe() const;
 		bool		getFormSigned() const;
+		std::string	getName() const;
 		class	GradeTooHighException: public std::out_of_range
 		{
 			public:
@@ -50,6 +52,8 @@ class Form
 		};
 
 };
+
+std::ostream&	operator<<( std::ostream& out, const Form& form );
 
 #endif
 
