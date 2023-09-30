@@ -6,7 +6,7 @@
 /*   By: jareste- <jareste-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 18:18:50 by jareste-          #+#    #+#             */
-/*   Updated: 2023/09/28 16:44:11 by jareste-         ###   ########.fr       */
+/*   Updated: 2023/09/30 15:29:15 by jareste-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ Form	&Form::operator=( const Form& form )
 
 void	Form::beSigned(const Bureaucrat &bureaucrat)
 {
-	if (bureaucrat.getGrade() < this->gradeToSign)
+	if (bureaucrat.getGrade() <= this->gradeToSign)
 		formSigned = true;
 	else
 		throw Form::GradeTooLowException("grade is too low");

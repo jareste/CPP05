@@ -6,7 +6,7 @@
 /*   By: jareste- <jareste-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 18:18:50 by jareste-          #+#    #+#             */
-/*   Updated: 2023/09/29 03:31:16 by jareste-         ###   ########.fr       */
+/*   Updated: 2023/09/30 15:30:22 by jareste-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ AForm	&AForm::operator=( const AForm& aform )
 
 void	AForm::beSigned(const Bureaucrat &bureaucrat)
 {
-	if (bureaucrat.getGrade() < this->gradeToSign)
+	if (bureaucrat.getGrade() <= this->gradeToSign)
 		formSigned = true;
 	else
 		throw AForm::GradeTooLowException("grade is too low");
@@ -82,7 +82,7 @@ void		AForm::execute(Bureaucrat const & bureaucrat) const
 {
 	if (formSigned == false)
 		throw AForm::FormNotSignedException("form is not signed");
-	if (bureaucrat.getGrade() > this->gradeToExe)
+	if (bureaucrat.getGrade() >= this->gradeToExe)
 		throw AForm::GradeTooLowException("grade is too low");
 	exeForm();
 }
