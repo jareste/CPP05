@@ -6,7 +6,7 @@
 /*   By: jareste- <jareste-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 17:27:26 by jareste-          #+#    #+#             */
-/*   Updated: 2023/09/29 00:37:58 by jareste-         ###   ########.fr       */
+/*   Updated: 2023/09/30 18:48:37 by jareste-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 class PresidentialPardonForm : public AForm
 {
 	private:
-		const std::string	target;
+		std::string	target;
 		void	exeForm(void) const;
 	public:
 		PresidentialPardonForm();

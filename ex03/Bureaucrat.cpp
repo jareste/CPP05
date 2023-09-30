@@ -6,7 +6,7 @@
 /*   By: jareste- <jareste-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 20:20:44 by jareste-          #+#    #+#             */
-/*   Updated: 2023/09/29 20:29:56 by jareste-         ###   ########.fr       */
+/*   Updated: 2023/09/30 18:48:12 by jareste-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,15 @@ void	Bureaucrat::check_grade_exceptions()
 
 void		Bureaucrat::signForm(AForm &aform) const
 {
+	bool	auxSigned = aform.getAFormSigned();
+
 	try
 	{
 		aform.beSigned(*this);
+		if (auxSigned == false)
+			std::cout << this->name << " signed form " << aform.getName() << std::endl;
+		else
+			std::cout << this->name << " not signed " << aform.getName() << " beacouse it was signed." << std::endl;
 	}
 	catch (std::out_of_range& e)
 	{
