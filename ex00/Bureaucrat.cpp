@@ -6,7 +6,7 @@
 /*   By: jareste- <jareste-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 20:20:44 by jareste-          #+#    #+#             */
-/*   Updated: 2023/09/28 11:26:48 by jareste-         ###   ########.fr       */
+/*   Updated: 2023/09/30 17:52:09 by jareste-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,9 @@ int			Bureaucrat::getGrade() const
 
 void	Bureaucrat::check_grade_exceptions()
 {
-	if (this->grade > 150)
-		throw Bureaucrat::GradeTooHighException("Grade was too high.");
 	if (this->grade < 1)
+		throw Bureaucrat::GradeTooHighException("Grade was too high.");
+	if (this->grade > 150)
 		throw Bureaucrat::GradeTooLowException("Grade was too low.");
 }
 

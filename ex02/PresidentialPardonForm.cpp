@@ -6,7 +6,7 @@
 /*   By: jareste- <jareste-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 17:27:31 by jareste-          #+#    #+#             */
-/*   Updated: 2023/09/29 01:23:10 by jareste-         ###   ########.fr       */
+/*   Updated: 2023/09/30 18:18:04 by jareste-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ PresidentialPardonForm::~PresidentialPardonForm()
 
 PresidentialPardonForm	&PresidentialPardonForm::operator=( const PresidentialPardonForm& presidentialPardonForm )
 {
-	this->formSigned = presidentialPardonForm.getAFormSigned();
+	this->target = presidentialPardonForm.getTarget();
+	AForm::operator=(presidentialPardonForm);
 	return (*this);
 }
 

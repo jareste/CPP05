@@ -6,7 +6,7 @@
 /*   By: jareste- <jareste-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 18:18:50 by jareste-          #+#    #+#             */
-/*   Updated: 2023/09/30 15:30:22 by jareste-         ###   ########.fr       */
+/*   Updated: 2023/09/30 18:39:43 by jareste-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ AForm::AForm( const AForm &aform ) : name(aform.name), gradeToSign(aform.gradeTo
 
 AForm::AForm(std::string name, int gradeToSign, int gradeToExe) : name(name), gradeToSign(gradeToSign), gradeToExe(gradeToExe)
 {
+	check_grade_exceptions();
 	formSigned = false;
 }
 
@@ -56,6 +57,18 @@ void	AForm::beSigned(const Bureaucrat &bureaucrat)
 		formSigned = true;
 	else
 		throw AForm::GradeTooLowException("grade is too low");
+}
+
+void	AForm::check_grade_exceptions() const
+{
+	if (this->gradeToExe > 150)
+		throw Bureaucrat::GradeTooHighException("Grade to exe is too high");
+	if (this->gradeToExe < 1)
+		throw Bureaucrat::GradeTooLowException("Grade to exe is too low");
+	if (this->gradeToSign > 150)
+		throw Bureaucrat::GradeTooHighException("Grade to sign is too high");
+	if (this->gradeToSign < 1)
+		throw Bureaucrat::GradeTooLowException("Grade to sign is too low");
 }
 
 int	AForm::getGradeToSign() const

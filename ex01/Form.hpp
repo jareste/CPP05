@@ -6,7 +6,7 @@
 /*   By: jareste- <jareste-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 18:18:57 by jareste-          #+#    #+#             */
-/*   Updated: 2023/09/30 09:01:06 by jareste-         ###   ########.fr       */
+/*   Updated: 2023/09/30 17:53:13 by jareste-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ class Form
 		~Form();
 		Form		&operator=( const Form& form );
 		void		beSigned(const Bureaucrat &bureaucrat);
+		void		check_grade_exceptions() const;
 		int			getGradeToSign() const;
 		int			getGradeToExe() const;
 		bool		getFormSigned() const;

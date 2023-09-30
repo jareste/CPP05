@@ -6,7 +6,7 @@
 /*   By: jareste- <jareste-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 18:18:57 by jareste-          #+#    #+#             */
-/*   Updated: 2023/09/29 03:30:51 by jareste-         ###   ########.fr       */
+/*   Updated: 2023/09/30 18:10:56 by jareste-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ class Bureaucrat;
 
 class AForm
 {
-	protected:
+	private:
 		const std::string	name;
 		bool				formSigned;
 		const int			gradeToSign;
@@ -37,6 +37,7 @@ class AForm
 		virtual ~AForm();
 		AForm		&operator=( const AForm& aForm );
 		void		beSigned(const Bureaucrat &bureaucrat);
+		void		check_grade_exceptions() const;
 		int			getGradeToSign() const;
 		int			getGradeToExe() const;
 		bool		getAFormSigned() const;

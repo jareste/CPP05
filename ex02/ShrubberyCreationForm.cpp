@@ -6,7 +6,7 @@
 /*   By: jareste- <jareste-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 17:26:55 by jareste-          #+#    #+#             */
-/*   Updated: 2023/09/30 15:37:31 by jareste-         ###   ########.fr       */
+/*   Updated: 2023/09/30 18:19:03 by jareste-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ ShrubberyCreationForm::~ShrubberyCreationForm()
 
 ShrubberyCreationForm	&ShrubberyCreationForm::operator=( const ShrubberyCreationForm& shrubberyCreationForm )
 {
-	this->formSigned = shrubberyCreationForm.getAFormSigned();
+	this->target = shrubberyCreationForm.getTarget();
+	AForm::operator=(shrubberyCreationForm);
 	return (*this);
 }
 
